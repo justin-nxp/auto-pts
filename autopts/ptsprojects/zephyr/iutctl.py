@@ -33,7 +33,7 @@ ZEPHYR = None
 # qemu binary should be installed in shell PATH
 QEMU_BIN = "qemu-system-arm"
 
-SERIAL_BAUDRATE = 115200
+SERIAL_BAUDRATE = 9600
 CLI_SUPPORT = ['tty', 'hci', 'qemu']
 
 
@@ -110,14 +110,14 @@ class ZephyrCtl:
                 # On windows socat.exe does not support setting serial baud rate.
                 # Set it with 'mode' from cmd.exe
                 com = tty_to_com(self.tty_file)
-                mode_cmd = (">nul 2>nul cmd.exe /c \"mode " + com + "BAUD=115200 PARITY=n DATA=8 STOP=1\"")
+                mode_cmd = (">nul 2>nul cmd.exe /c \"mode " + com + "BAUD=9600 PARITY=n DATA=8 STOP=1\"")
                 os.system(mode_cmd)
 
                 socat_cmd = ("socat.exe -x -v tcp:" + socket.gethostbyname(socket.gethostname()) +
-                             ":%s,retry=100,interval=1 %s,raw,b115200" %
+                             ":%s,retry=100,interval=1 %s,raw,b9600" %
                              (self.socket_srv.sock.getsockname()[1], self.tty_file))
             else:
-                socat_cmd = ("socat -x -v %s,rawer,b115200 UNIX-CONNECT:%s" %
+                socat_cmd = ("socat -x -v %s,rawer,b9600 UNIX-CONNECT:%s" %
                              (self.tty_file, self.btp_address))
 
             log("Starting socat process: %s", socat_cmd)
@@ -128,7 +128,7 @@ class ZephyrCtl:
                                                   stdout=self.iut_log_file,
                                                   stderr=self.iut_log_file)
         elif self.hci is not None:
-            socat_cmd = ("socat -x -v %%s,rawer,b115200 UNIX-CONNECT:%s &" %
+            socat_cmd = ("socat -x -v %%s,rawer,b9600 UNIX-CONNECT:%s &" %
                          self.btp_address)
 
             native_cmd = ("%s --bt-dev=hci%d --attach_uart_cmd=\"%s\"" %

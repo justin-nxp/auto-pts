@@ -49,7 +49,7 @@ def flush_serial(tty):
 
     if sys.platform == 'win32':
         com = tty_to_com(tty)
-        ser = serial.Serial(com, 115200, timeout=5)
+        ser = serial.Serial(com, 9600, timeout=5)
         ser.flushInput()
         ser.flushOutput()
     else:
