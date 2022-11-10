@@ -91,7 +91,7 @@ class BTPSocket:
             data_memview = data_memview[nbytes:]
             toread_data_len -= nbytes
 
-        tuple_data = bytes(str(dec_data(data)), 'utf-8').decode("unicode_escape").replace("b'", "'")
+        tuple_data = bytes(str(dec_data(data)), 'utf-8').decode("utf-8").replace("b'", "'")
 
         log("Received data: %r, %r", tuple_data, data)
         self.conn.settimeout(None)
